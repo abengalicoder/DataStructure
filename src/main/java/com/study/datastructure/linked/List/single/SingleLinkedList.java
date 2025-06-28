@@ -8,6 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 public class SingleLinkedList {
     private Node head;
 
+    public static SingleLinkedList of(int... data) {
+        SingleLinkedList list = new SingleLinkedList();
+        for (int i = 0; i < data.length; i++) {
+            list.add(data[i]);
+        }
+        return list;
+    }
+
     public void add(int data) {
         if (head == null) {
             head = new Node(data);
@@ -103,5 +111,26 @@ public class SingleLinkedList {
             currentNode = nextNode;
         }
         head = reversedNode;
+    }
+
+    public Node[] getNodes() {
+        Node [] nodes = new Node[count()];
+        int index = 0;
+        Node currentNode = head;
+        while (currentNode != null) {
+            nodes[index++]= currentNode;
+            currentNode = currentNode.next;
+        }
+        return nodes;
+    }
+
+    public Node getNode(int index) {
+        Node currentNode = head;
+        int i = 0;
+        while (i < index) {
+            currentNode = currentNode.next;
+            i++;
+        }
+        return currentNode;
     }
 }
