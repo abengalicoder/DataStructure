@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 public class SingleLinkedList {
-    private Node head;
+    public Node head;
 
     public static SingleLinkedList of(int... data) {
         SingleLinkedList list = new SingleLinkedList();
