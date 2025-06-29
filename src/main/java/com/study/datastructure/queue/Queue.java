@@ -23,7 +23,7 @@ public class Queue {
     int dequeue() {
         if(head == null || size == 0) {
             System.out.println("Queue is empty deque");
-            return 0;
+            return -9999;
         }
         size--;
         if(first == last) {
