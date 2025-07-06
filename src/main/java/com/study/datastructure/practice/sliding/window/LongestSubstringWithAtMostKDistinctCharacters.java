@@ -2,7 +2,9 @@ package com.study.datastructure.practice.sliding.window;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -27,6 +29,15 @@ public class LongestSubstringWithAtMostKDistinctCharacters {
         assertEquals("aaaa = 1", longestSubstringWithKDistinct("aaaa", 1), 4);
         assertEquals("abcde = 5", longestSubstringWithKDistinct("abcde", 5), 5);
         assertEquals("aabacbebebe = 3", longestSubstringWithKDistinct("aabacbebebe", 3), 7);
+
+        assertEquals("araaci = 4", longestSubstringWithKDistinctOptimal("araaci", 2), 4);
+        assertEquals("araaci = 1", longestSubstringWithKDistinctOptimal("araaci", 1), 2);
+        assertEquals("cbbebi = 3", longestSubstringWithKDistinctOptimal("cbbebi", 3), 5);
+        assertEquals("abcabcabc = 2", longestSubstringWithKDistinctOptimal("abcabcabc", 2), 2);
+        assertEquals("eceba = 2", longestSubstringWithKDistinctOptimal("eceba", 2), 3);
+        assertEquals("aaaa = 1", longestSubstringWithKDistinctOptimal("aaaa", 1), 4);
+        assertEquals("abcde = 5", longestSubstringWithKDistinctOptimal("abcde", 5), 5);
+        assertEquals("aabacbebebe = 3", longestSubstringWithKDistinctOptimal("aabacbebebe", 3), 7);
     }
 
     public static int longestSubstringWithKDistinct(String s, int k) {
@@ -68,5 +79,34 @@ public class LongestSubstringWithAtMostKDistinctCharacters {
             maxWindow = window;
         }
         return maxWindow.length();
+    }
+
+    public static int longestSubstringWithKDistinctOptimal(String s, int k) {
+        if (s == null || s.length() == 0 || k == 0) {
+            return 0;
+        }
+
+        int maxLen = 0, left = 0;
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char rightChar = s.charAt(right);
+            map.put(rightChar, map.getOrDefault(rightChar, 0) + 1);
+
+            while (map.size() > k) {
+                char leftChar = s.charAt(left);
+                map.put(leftChar, map.get(leftChar) - 1);
+                if (map.get(leftChar) == 0) {
+                    map.remove(leftChar);
+                }
+                left++;
+            }
+
+            if (map.size() == k) {
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+        }
+
+        return maxLen;
     }
 }
